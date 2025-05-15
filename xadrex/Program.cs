@@ -1,5 +1,6 @@
 ﻿using tabuleiro;
 using jogoxadrez;
+using jogoxadrex;
 
 namespace xadrex
 {
@@ -7,7 +8,11 @@ namespace xadrex
     {
         static void Main(string[] args)
         {
+            PosicaoXadrez pos = new PosicaoXadrez('c', 7);
+            Console.WriteLine(pos);
 
+            Console.WriteLine(pos.ToPosicao());
+            /*
             try
             {
                 Tabuleiro tab = new Tabuleiro(8, 8);
@@ -23,7 +28,7 @@ namespace xadrex
             catch (TabuleiroException tabException)
             {
                 Console.WriteLine(tabException.Message);
-            }
+            }*/
 
 
         }
