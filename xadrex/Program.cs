@@ -16,11 +16,8 @@ namespace xadrex
                     try
                     {
                         Console.Clear();
-                        Tela.ImprimirTabuleiro(partida.Tab);
+                        Tela.ImprimirPartida(partida);
 
-                        Console.WriteLine();
-                        Console.WriteLine("Turno: " + partida.Turno);
-                        Console.WriteLine("Aguardando joga da peça: " + partida.JogadorAtual);
 
                         Console.WriteLine();
 
