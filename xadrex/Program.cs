@@ -7,7 +7,6 @@ namespace xadrex
     {
         static void Main(string[] args)
         {
-
             try
             {
                 PartidaDeXadrez partida = new PartidaDeXadrez();
@@ -17,7 +16,6 @@ namespace xadrex
                     {
                         Console.Clear();
                         Tela.ImprimirPartida(partida);
-
 
                         Console.WriteLine();
 
@@ -51,9 +49,6 @@ namespace xadrex
             {
                 Console.WriteLine(tabException.Message);
             }
-
-
-
         }
     }
 }
