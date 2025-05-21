@@ -33,7 +33,7 @@ Este projeto simula um jogo de xadrez completo no terminal, com todas as princip
 
 Você pode baixar o executável diretamente e rodar sem precisar clonar ou compilar o projeto:
 
-### 📥 [Clique aqui para baixar a versão .EXE (Windows 64 bits)](https://github.com/kevinLdias/Projeto-Xadrez-Console/releases/latest)
+### 📥 [Clique aqui para baixar a versão .EXE (Windows 64 bits)](https://github.com/kevinLdias/projetoxadrez-console/releases/latest)
 
 1. Baixe o arquivo `xadrex.exe`
 2. Dê dois cliques ou execute via terminal:
