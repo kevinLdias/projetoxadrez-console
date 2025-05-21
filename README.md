@@ -1,5 +1,5 @@
 # Xadrex
-[![NPM](https://img.shields.io/npm/l/react)](https://github.com/kevinLdias/projetoxadrez-console/new/main)
+[![NPM](https://img.shields.io/npm/l/react)](https://github.com/kevinLdias/projetoxadrez-console/blob/main/LICENSE)
 
 Uma aplicação de xadrez desenvolvida em C# com interface via console. Ideal para praticar conceitos de Programação Orientada a Objetos (POO), lógica de jogo e regras do xadrez.
 
