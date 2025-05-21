@@ -14,6 +14,7 @@ namespace jogoxadrez
         private HashSet<Peca> _pecas;
         private HashSet<Peca> _pecasCapturadas;
         public bool Xeque { get; private set; }
+        public Peca VulneravelEnPassant { get; private set; }
 
         public PartidaDeXadrez()
         {
@@ -22,6 +23,7 @@ namespace jogoxadrez
             JogadorAtual = Cor.Branca;
             Terminada = false;
             Xeque = false;
+            VulneravelEnPassant = null;
             _pecas = new HashSet<Peca>();
             _pecasCapturadas = new HashSet<Peca>();
             ColocarAsPecas();
@@ -39,7 +41,7 @@ namespace jogoxadrez
             }
 
             // Jogada especial Roque pequeno
-            if (p is Rei && destino.Coluna == origem.Coluna + 2) 
+            if (p is Rei && destino.Coluna == origem.Coluna + 2)
             {
                 Posicao origemDaTorre = new Posicao(origem.Linha, origem.Coluna + 3);
                 Posicao destinoDaTorre = new Posicao(origem.Linha, origem.Coluna + 1);
@@ -58,6 +60,27 @@ namespace jogoxadrez
                 Peca torre = Tab.RetirarPeca(origemDaTorre);
                 torre.IncrementarQteMovimentos();
                 torre.Tab.ColocarPeca(torre, destinoDaTorre);
+            }
+
+            // Jogada especial EnPassant
+            if (p is Peao)
+            {
+                if (origem.Coluna != destino.Coluna && pecaCapturada == null)
+                {
+                    Posicao posP;
+
+                    if (p.Cor == Cor.Branca)
+                    {
+                        posP = new Posicao(destino.Linha + 1, destino.Coluna);
+                    }
+                    else
+                    {
+                        posP = new Posicao(destino.Linha - 1, destino.Coluna);
+                    }
+
+                    pecaCapturada = Tab.RetirarPeca(posP);
+                    _pecasCapturadas.Add(pecaCapturada);
+                }
             }
 
             return pecaCapturada;
@@ -95,6 +118,26 @@ namespace jogoxadrez
                 torre.DecrementarQteMovimentos();
                 torre.Tab.ColocarPeca(torre, origemDaTorre);
             }
+
+            // Jogada especial EnPassant
+            if (p is Peao)
+            {
+                if (origem.Coluna != destino.Coluna && pecaCapturada == VulneravelEnPassant)
+                {
+                    Peca peao = Tab.RetirarPeca(destino);
+                    Posicao posP;
+
+                    if (p.Cor == Cor.Branca)
+                    {
+                        posP = new Posicao(3, destino.Coluna);
+                    }
+                    else
+                    {
+                        posP = new Posicao(4, destino.Coluna);
+                    }
+                    Tab.ColocarPeca(peao, posP);
+                }
+            }
         }
 
         public void RealizaJogada(Posicao origem, Posicao destino)
@@ -121,6 +164,18 @@ namespace jogoxadrez
             {
                 Turno++;
                 MudaJogador();
+            }
+            Peca p = Tab.ReturnPeca(destino);
+
+            // Jogada especial EnPassant
+
+            if (p is Peao && (destino.Linha == origem.Linha - 2 || destino.Linha == origem.Linha + 2))
+            {
+                VulneravelEnPassant = p;
+            }
+            else
+            {
+                VulneravelEnPassant = null;
             }
         }
         public void ValidaPosicaoDeOrigem(Posicao pos)
@@ -269,14 +324,14 @@ namespace jogoxadrez
             ColocarNovaPeca('f', 1, new Bispo(Cor.Branca, Tab));
             ColocarNovaPeca('g', 1, new Cavalo(Cor.Branca, Tab));
             ColocarNovaPeca('h', 1, new Torre(Cor.Branca, Tab));
-            ColocarNovaPeca('a', 2, new Peao(Cor.Branca, Tab));
-            ColocarNovaPeca('b', 2, new Peao(Cor.Branca, Tab));
-            ColocarNovaPeca('c', 2, new Peao(Cor.Branca, Tab));
-            ColocarNovaPeca('d', 2, new Peao(Cor.Branca, Tab));
-            ColocarNovaPeca('e', 2, new Peao(Cor.Branca, Tab));
-            ColocarNovaPeca('f', 2, new Peao(Cor.Branca, Tab));
-            ColocarNovaPeca('g', 2, new Peao(Cor.Branca, Tab));
-            ColocarNovaPeca('h', 2, new Peao(Cor.Branca, Tab));
+            ColocarNovaPeca('a', 2, new Peao(Cor.Branca, Tab, this));
+            ColocarNovaPeca('b', 2, new Peao(Cor.Branca, Tab, this));
+            ColocarNovaPeca('c', 2, new Peao(Cor.Branca, Tab, this));
+            ColocarNovaPeca('d', 2, new Peao(Cor.Branca, Tab, this));
+            ColocarNovaPeca('e', 2, new Peao(Cor.Branca, Tab, this));
+            ColocarNovaPeca('f', 2, new Peao(Cor.Branca, Tab, this));
+            ColocarNovaPeca('g', 2, new Peao(Cor.Branca, Tab, this));
+            ColocarNovaPeca('h', 2, new Peao(Cor.Branca, Tab, this));
 
             //----------------------------------------------------------------------------------
 
@@ -289,14 +344,14 @@ namespace jogoxadrez
             ColocarNovaPeca('f', 8, new Bispo(Cor.Azul, Tab));
             ColocarNovaPeca('g', 8, new Cavalo(Cor.Azul, Tab));
             ColocarNovaPeca('h', 8, new Torre(Cor.Azul, Tab));
-            ColocarNovaPeca('a', 7, new Peao(Cor.Azul, Tab));
-            ColocarNovaPeca('b', 7, new Peao(Cor.Azul, Tab));
-            ColocarNovaPeca('c', 7, new Peao(Cor.Azul, Tab));
-            ColocarNovaPeca('d', 7, new Peao(Cor.Azul, Tab));
-            ColocarNovaPeca('e', 7, new Peao(Cor.Azul, Tab));
-            ColocarNovaPeca('f', 7, new Peao(Cor.Azul, Tab));
-            ColocarNovaPeca('g', 7, new Peao(Cor.Azul, Tab));
-            ColocarNovaPeca('h', 7, new Peao(Cor.Azul, Tab));
+            ColocarNovaPeca('a', 7, new Peao(Cor.Azul, Tab, this));
+            ColocarNovaPeca('b', 7, new Peao(Cor.Azul, Tab, this));
+            ColocarNovaPeca('c', 7, new Peao(Cor.Azul, Tab, this));
+            ColocarNovaPeca('d', 7, new Peao(Cor.Azul, Tab, this));
+            ColocarNovaPeca('e', 7, new Peao(Cor.Azul, Tab, this));
+            ColocarNovaPeca('f', 7, new Peao(Cor.Azul, Tab, this));
+            ColocarNovaPeca('g', 7, new Peao(Cor.Azul, Tab, this));
+            ColocarNovaPeca('h', 7, new Peao(Cor.Azul, Tab, this));
         }
     }
 }
